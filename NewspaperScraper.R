@@ -38,7 +38,7 @@ articles_spiegel <- list()
 
 ###Use RCrawler
 #Watch out, running this command takes about 5-6 days!
-for(i in 1:length(homepages){
+for(i in 1:length(homepages)){
   setwd("./Scrape News articles/dataDump")
   Rcrawler(homepages[i], MaxDepth = 1, urlregexfilter = ".*www\\.spiegel\\.de.*html$", ExtractXpathPat = c("//h1", "//*[@class='article-section clearfix']"))
   
