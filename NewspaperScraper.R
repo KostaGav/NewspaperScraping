@@ -42,6 +42,7 @@ for(i in 1:length(homepages){
   setwd("./Scrape News articles/dataDump")
   Rcrawler(homepages[i], MaxDepth = 1, urlregexfilter = ".*www\\.spiegel\\.de.*html$", ExtractXpathPat = c("//h1", "//*[@class='article-section clearfix']"))
   
+  if(exists("DATA")){
   #restructure data list
   dat <- DATA %>% 
     map_df(enframe) %>% 
@@ -75,15 +76,23 @@ for(i in 1:length(homepages){
   
   articles_spiegel[[i]] <- dat_full
   
+  print(paste0("Already ", i, " URLs scraped. There are ", length(fullUrlsDf) - i , " left to scrape"))
+  
   #Remove html files to save space, using the Windows shell command
   #This command only works on Windows OS
   #For Mac or UNIX please replace with the respective system command
-  shell("del /S *.html")
+  #shell("del /S *.html")
+  #Alternatively, you can directly remove the crawled data completely 
+  unlink("./Scrape News articles/dataDump/*", recursive = TRUE, force = TRUE)
+  
   rm(DATA, INDEX, dat, dat_full)
+  } else {
+    next
+  }
 }
 
 #clear dataDump
-unlink("./Scrape News articles/dataDump/*", recursive = TRUE, force = TRUE)
+
 
 #Get df from lists
 content_spiegel <- do.call("rbind", articles_spiegel)
