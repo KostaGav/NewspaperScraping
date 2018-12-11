@@ -29,6 +29,7 @@ url_from_json <- url_from_json[-1,]
 
 homepages <- c()
 
+#Download relevant URLs
 for(i in 1:nrow(url_from_json)){
   homepages[i] <- paste0("http://web.archive.org/web/", url_from_json[i,2], "/", url_from_json[i,3])
 }
